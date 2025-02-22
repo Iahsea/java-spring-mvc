@@ -1,6 +1,7 @@
 package vn.iahsea.laptopshop.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +52,8 @@ public class UserController {
 
     @RequestMapping("/admin/user/{id}")  
     public String getUserDetailPage(Model model, @PathVariable long id){
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
         model.addAttribute("id", id);
         return "admin/user/show";
     }
