@@ -43,7 +43,8 @@ public class UserController {
     
     @RequestMapping("/admin/user")  
     public String getUserPage(Model model){
-        model.addAttribute("newUser", new User());
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users1", users);
         return "admin/user/table-user";
     }
 
@@ -55,9 +56,8 @@ public class UserController {
 
     @RequestMapping(value = "admin/user/create", method = RequestMethod.POST)  
     public String createUserPage(Model model, @ModelAttribute("newUser") User iahsea){
-        userService.handleSaveUser(iahsea);
-        System.out.println("run here" + iahsea);
-        return "hello";
+        this.userService.handleSaveUser(iahsea);
+        return "redirect:/admin/user";
     }
     
     
