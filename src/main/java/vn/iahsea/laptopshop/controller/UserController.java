@@ -88,12 +88,25 @@ public class UserController {
             currentUser.setFullName(iahsea.getFullName());
             currentUser.setPhone(iahsea.getPhone());
 
-            this.userService.handleSaveUser(iahsea);
+            this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";
     }
     
+    @GetMapping("/admin/user/delete/{id}")
+    public String getDeleteUserPage(Model model, @PathVariable long id){
+        model.addAttribute("id", id);
+        // User user = new User();
+        // user.setId(id);
+        model.addAttribute("newUser", new User());
+        return "admin/user/delete";
+    }
     
+    @PostMapping("/admin/user/delete")
+    public String postDeleteUser(Model model, @ModelAttribute("newUser") User iahsea){
+        this.userService.deleteAUser(iahsea.getId());
+        return "redirect:/admin/user";
+    }
     
 }
 

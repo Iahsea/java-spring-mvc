@@ -10,6 +10,8 @@ import vn.iahsea.laptopshop.domain.User;
 public interface  UserRepository extends JpaRepository<User, Long>{
     User save(User iahsea);
 
+    void deleteById(long id);
+
     List<User> findByEmail(String email);
 
     List<User> findAll();
