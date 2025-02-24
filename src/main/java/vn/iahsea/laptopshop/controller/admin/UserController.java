@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.ServletContext;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.repository.UserRepository;
+import vn.iahsea.laptopshop.service.UploadService;
 import vn.iahsea.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,11 +33,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserController {
 
     private final UserService userService;
-    private final ServletContext servletContext;
+    private final UploadService uploadService;
 
-    public UserController(UserService userService, ServletContext servletContext) {
+    public UserController(UploadService uploadService, UserService userService, ServletContext servletContext) {
         this.userService = userService;
-        this.servletContext = servletContext;
+        this.uploadService = uploadService;
     }
 
     @RequestMapping("/")
@@ -73,25 +74,9 @@ public class UserController {
     public String createUserPage(Model model,
             @ModelAttribute("newUser") User iahsea,
             @RequestParam("iahseaFile") MultipartFile file) {
-        
-        try {
-            byte[] bytes = file.getBytes();
 
-            String rootPath = this.servletContext.getRealPath("/resources/images");
-            File dir = new File(rootPath + File.separator + "avatar");
-            if (!dir.exists())
-                dir.mkdirs();
-            // Create the file on server
-            File serverFile = new File(dir.getAbsolutePath() + File.separator +
-                    +System.currentTimeMillis() + "-" + file.getOriginalFilename());
-            BufferedOutputStream stream = new BufferedOutputStream(
-                    new FileOutputStream(serverFile));
-            stream.write(bytes);
-            stream.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+
         // this.userService.handleSaveUser(iahsea);
         return "redirect:/admin/user";
     }
