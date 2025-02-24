@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +35,13 @@ public class UserController {
 
     private final UserService userService;
     private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UploadService uploadService, UserService userService, ServletContext servletContext) {
+    public UserController(UploadService uploadService, UserService userService, ServletContext servletContext,
+     PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping("/")
@@ -76,8 +80,12 @@ public class UserController {
             @RequestParam("iahseaFile") MultipartFile file) {
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(iahsea.getPassword());    
 
-        // this.userService.handleSaveUser(iahsea);
+        iahsea.setAvatar(avatar);
+        iahsea.setPassword(hashPassword);
+        iahsea.setRole(this.userService.getRoleByName(iahsea.getRole().getName()));
+        this.userService.handleSaveUser(iahsea);
         return "redirect:/admin/user";
     }
 
