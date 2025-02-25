@@ -80,6 +80,7 @@ public class UserController {
             @RequestParam("iahseaFile") MultipartFile file) {
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        System.out.println("=====================:" + avatar);
         String hashPassword = this.passwordEncoder.encode(iahsea.getPassword());    
 
         iahsea.setAvatar(avatar);
@@ -97,12 +98,18 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User iahsea) {
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User iahsea,
+    @RequestParam("iahseaFile") MultipartFile file) {
         User currentUser = this.userService.getUserById(iahsea.getId());
         if (currentUser != null) {
+            if (!file.isEmpty()) {
+                String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+                currentUser.setAvatar(avatar);
+            }
             currentUser.setAddress(iahsea.getAddress());
             currentUser.setFullName(iahsea.getFullName());
             currentUser.setPhone(iahsea.getPhone());
+            currentUser.setRole(this.userService.getRoleByName(iahsea.getRole().getName()));
 
             this.userService.handleSaveUser(currentUser);
         }

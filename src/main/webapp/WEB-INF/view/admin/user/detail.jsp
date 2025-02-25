@@ -50,6 +50,15 @@
                                                 <li class="list-group-item">Email: ${user.email}</li>
                                                 <li class="list-group-item">FullName: ${user.fullName}</li>
                                                 <li class="list-group-item">Address: ${user.address}</li>
+                                                <li class="list-group-item">
+                                                    Avatar: 
+                                                    <c:if test="${not empty user.avatar}">
+                                                        <img src="http://localhost:8080/images/avatar/${user.avatar}.jpg" alt="User Avatar" style="max-width: 150px; max-height: 150px; border-radius: 50%;">
+                                                    </c:if>
+                                                    <c:if test="${empty user.avatar}">
+                                                        <span>No avatar</span>
+                                                    </c:if>
+                                                </li>
                                                 </ul>
                                                 </div>
                 
