@@ -1,14 +1,16 @@
 package vn.iahsea.laptopshop.controller.admin;
 
-
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.service.UploadService;
 import vn.iahsea.laptopshop.service.UserService;
@@ -29,7 +31,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     public UserController(UploadService uploadService, UserService userService,
-     PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
@@ -37,11 +39,11 @@ public class UserController {
 
     // @RequestMapping("/")
     // public String getHomePage(Model model) {
-    //     List<User> arrUsers = this.userService.getAllUsersByEmail("iah@gmail.com");
-    //     System.out.println(arrUsers);
-    //     model.addAttribute("eric", "hi");
-    //     model.addAttribute("iahsea", "This is Iahsea");
-    //     return "hello";
+    // List<User> arrUsers = this.userService.getAllUsersByEmail("iah@gmail.com");
+    // System.out.println(arrUsers);
+    // model.addAttribute("eric", "hi");
+    // model.addAttribute("iahsea", "This is Iahsea");
+    // return "hello";
     // }
 
     @RequestMapping("/admin/user")
@@ -67,12 +69,17 @@ public class UserController {
 
     @PostMapping(value = "admin/user/create")
     public String createUserPage(Model model,
-            @ModelAttribute("newUser") User iahsea,
+            @ModelAttribute("newUser") @Valid User iahsea,
+            BindingResult bindingResult, 
             @RequestParam("iahseaFile") MultipartFile file) {
 
+        List<FieldError> errors = bindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(error.getObjectName() + " - " + error.getDefaultMessage());
+        }
+
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
-        System.out.println("=====================:" + avatar);
-        String hashPassword = this.passwordEncoder.encode(iahsea.getPassword());    
+        String hashPassword = this.passwordEncoder.encode(iahsea.getPassword());
 
         iahsea.setAvatar(avatar);
         iahsea.setPassword(hashPassword);
@@ -90,7 +97,7 @@ public class UserController {
 
     @PostMapping("/admin/user/update")
     public String postUpdateUser(Model model, @ModelAttribute("newUser") User iahsea,
-    @RequestParam("iahseaFile") MultipartFile file) {
+            @RequestParam("iahseaFile") MultipartFile file) {
         User currentUser = this.userService.getUserById(iahsea.getId());
         if (currentUser != null) {
             if (!file.isEmpty()) {
