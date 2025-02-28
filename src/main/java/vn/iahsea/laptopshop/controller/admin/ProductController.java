@@ -83,14 +83,14 @@ public class ProductController {
         Product currentProduct = this.productService.fetchProductById(pr.getId()).get();
         if (currentProduct != null) {
             if (!file.isEmpty()) {
-                String avatar = this.uploadService.handleSaveUploadFile(file, "product");
-                currentProduct.setImage(avatar);
+                String img = this.uploadService.handleSaveUploadFile(file, "product");
+                currentProduct.setImage(img);
             }
             currentProduct.setName(pr.getName());
             currentProduct.setPrice(pr.getPrice());
+            currentProduct.setQuantity(pr.getQuantity());
             currentProduct.setDetailDesc(pr.getDetailDesc());
             currentProduct.setShortDesc(pr.getShortDesc());
-            currentProduct.setQuantity(pr.getQuantity());
             currentProduct.setFactory(pr.getFactory());
             currentProduct.setTarget(pr.getTarget());
 

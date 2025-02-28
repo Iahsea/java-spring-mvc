@@ -50,7 +50,6 @@
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item "><a href="/admin/product">Product</a></li>
                                     <li class="breadcrumb-item active">View Update</li>
-                                    <p>Image Path: ${newProduct.image}</p>
                                 </ol>
                                 <div class="container mt-5">
                                     <div class="row">
