@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public List<User> getAllUsersByEmail(String email){
-        return this.userRepository.findByEmail(email);
+        return this.userRepository.findOneByEmail(email);
     }
 
     public User handleSaveUser(User user){
@@ -53,7 +53,7 @@ public class UserService {
     public User registerDTOtoUser(RegisterDTO registerDTO){
         User user = new User();
 
-        user.setFullName(registerDTO.getFirstName() + registerDTO.getLastName());
+        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
         user.setEmail(registerDTO.getEmail());
         user.setPassword(registerDTO.getPassword());
 
@@ -62,6 +62,10 @@ public class UserService {
 
     public boolean checkEmailExist(String email){
         return this.userRepository.existsByEmail(email);
+    }
+
+    public User getUserByEmail(String email){
+        return this.userRepository.findByEmail(email);
     }
 
 }
