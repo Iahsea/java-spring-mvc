@@ -9,6 +9,7 @@
                     class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <span style="color: white;">Welcome, <c:out value="${pageContext.request.userPrincipal.name}" /></span>
                 <!-- <div class="input-group">
         <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
         <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
@@ -20,12 +21,25 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
+                            <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
+                                src="/images/product/1711078092373-asus-01.png" />
+                            <div class="text-center my-3">
+                                <c:out value="${pageContext.request.userPrincipal.name}" />
+                            </div>
+                        </li>
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li>
+                            <form method="post" action="/logout">
+                                <input type="hidden" name="${_csrf.parameterName}"
+                                    value="${_csrf.token}" />
+                                <button class="dropdown-item">Đăng xuất</button>
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
