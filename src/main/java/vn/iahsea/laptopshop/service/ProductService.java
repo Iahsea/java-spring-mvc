@@ -96,6 +96,10 @@ public class ProductService {
         }
 
         // lưu cart_detail
+    } 
+
+    public Cart fetchByUser(User user){
+        return this.cartReposiroty.findByUser(user);
     }
 
 }
