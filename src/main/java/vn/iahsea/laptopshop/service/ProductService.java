@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import vn.iahsea.laptopshop.domain.Product;
-import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.repository.ProductRepository;
 
 @Service
