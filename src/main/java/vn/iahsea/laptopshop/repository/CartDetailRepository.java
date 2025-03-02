@@ -7,6 +7,8 @@ import vn.iahsea.laptopshop.domain.Cart;
 import vn.iahsea.laptopshop.domain.CartDetail;
 import vn.iahsea.laptopshop.domain.Product;
 
+
+
 @Repository
 public interface CartDetailRepository extends JpaRepository<CartDetail, Long>{
     
