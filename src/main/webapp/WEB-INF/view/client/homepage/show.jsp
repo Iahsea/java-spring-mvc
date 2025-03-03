@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
             <html lang="en">
 
             <head>
@@ -32,6 +31,13 @@
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
 
+                <meta name="_csrf" content="${_csrf.token}" />
+                <!-- default header name is X-CSRF-TOKEN -->
+                <meta name="_csrf_header" content="${_csrf.headerName}" />
+
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                    rel="stylesheet">
+
             </head>
 
             <body>
@@ -49,6 +55,8 @@
                 <jsp:include page="../layout/banner.jsp" />
 
 
+
+
                 <!-- Fruits Shop Start-->
                 <div class="container-fluid fruite py-5">
                     <div class="container py-5">
@@ -60,8 +68,7 @@
                                 <div class="col-lg-8 text-end">
                                     <ul class="nav nav-pills d-inline-flex text-center mb-5">
                                         <li class="nav-item">
-                                            <a class="d-flex m-2 py-2 bg-light rounded-pill active"
-                                                data-bs-toggle="pill" href="#tab-1">
+                                            <a class="d-flex m-2 py-2 bg-light rounded-pill active" href="/products">
                                                 <span class="text-dark" style="width: 130px;">All Products</span>
                                             </a>
                                         </li>
@@ -88,25 +95,29 @@
                                                                     <a href="/product/${product.id}">
                                                                         ${product.name}
                                                                     </a>
+
                                                                 </h4>
                                                                 <p style="font-size: 13px;">${product.shortDesc}</p>
                                                                 <div
-                                                                    class="d-flex  flex-lg-wrap justify-content-center">
+                                                                    class="d-flex  flex-lg-wrap justify-content-center flex-column">
                                                                     <p style="font-size: 15px; text-align: center; width: 100%;"
                                                                         class="text-dark  fw-bold mb-3">
                                                                         <fmt:formatNumber type="number"
                                                                             value="${product.price}" /> đ
                                                                     </p>
-                                                                    <form action="/add-product-to-cart/${product.id}"
+                                                                    <!-- <form action="/add-product-to-cart/${product.id}"
                                                                         method="post">
                                                                         <input type="hidden"
                                                                             name="${_csrf.parameterName}"
-                                                                            value="${_csrf.token}" />
-                                                                        <button
-                                                                            class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                            Add to cart</button>
-                                                                    </form>
+                                                                            value="${_csrf.token}" /> -->
+
+                                                                    <button data-product-id="${product.id}"
+                                                                        class="btnAddToCartHomepage mx-auto btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i
+                                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                        Add to cart
+                                                                    </button>
+                                                                    <!-- </form> -->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -123,8 +134,6 @@
                 <!-- Fruits Shop End-->
 
                 <jsp:include page="../layout/feature.jsp" />
-
-
 
                 <jsp:include page="../layout/footer.jsp" />
 
@@ -144,6 +153,8 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
             </body>
 
             </html>
