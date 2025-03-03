@@ -68,11 +68,11 @@ public class ProductService {
 
             if (cart == null) {
                 // tạo mới cart
-                Cart othercCart = new Cart();
-                othercCart.setUser(user);
-                othercCart.setSum(0);
+                Cart otherCart = new Cart();
+                otherCart.setUser(user);
+                otherCart.setSum(0);
 
-                cart = this.cartRepository.save(othercCart);
+                cart = this.cartRepository.save(otherCart);
             }
             // save cart_detail
             // tìm product by id
