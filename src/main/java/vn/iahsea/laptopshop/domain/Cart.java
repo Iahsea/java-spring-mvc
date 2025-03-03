@@ -1,5 +1,6 @@
 package vn.iahsea.laptopshop.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -14,7 +15,7 @@ import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "carts")
-public class Cart {
+public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

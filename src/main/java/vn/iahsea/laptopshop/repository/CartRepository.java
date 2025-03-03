@@ -7,6 +7,6 @@ import vn.iahsea.laptopshop.domain.Cart;
 import vn.iahsea.laptopshop.domain.User;
 
 @Repository
-public interface CartReposiroty extends JpaRepository<Cart, Long>{
+public interface CartRepository extends JpaRepository<Cart, Long>{
     Cart findByUser(User user);
 }
