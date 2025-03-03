@@ -28,9 +28,13 @@ public class Order {
     private String receiverPhone;
 
     private String status;
-    
 
-    // user id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
 
     public String getReceiverName() {
         return receiverName;
@@ -80,12 +84,6 @@ public class Order {
         this.orderDetails = orderDetails;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "order")
-    List<OrderDetail> orderDetails;
 
     public long getId() {
         return id;
