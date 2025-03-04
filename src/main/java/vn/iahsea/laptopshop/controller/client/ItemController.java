@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import vn.iahsea.laptopshop.domain.Cart;
 import vn.iahsea.laptopshop.domain.CartDetail;
 import vn.iahsea.laptopshop.domain.Product;
-import vn.iahsea.laptopshop.domain.Product_;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -147,7 +146,9 @@ public class ItemController {
     }
     
      @GetMapping("/products")
-    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+    public String getProductPage(Model model, 
+    @RequestParam("page") Optional<String> pageOptional,
+    @RequestParam("name") Optional<String> nameOptional) {
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -161,9 +162,11 @@ public class ItemController {
             // TODO : handle exception
         }
 
+        String name = nameOptional.get();
+
         // check sort price
         Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.fetchProducts(pageable);
+        Page<Product> prs = this.productService.fetchProducts(pageable, name);
         List<Product> products = prs.getContent();
         model.addAttribute("products", products);
 

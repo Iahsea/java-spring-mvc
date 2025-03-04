@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import vn.iahsea.laptopshop.domain.CartDetail;
 import vn.iahsea.laptopshop.domain.Order;
 import vn.iahsea.laptopshop.domain.OrderDetail;
 import vn.iahsea.laptopshop.domain.Product;
+import vn.iahsea.laptopshop.domain.Product_;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.repository.CartDetailRepository;
 import vn.iahsea.laptopshop.repository.CartRepository;
@@ -48,8 +50,12 @@ public class ProductService {
         return this.productRepository.save(pr);
     }
 
-    public Page<Product> fetchProducts(Pageable pageable) {
-        return this.productRepository.findAll(pageable);
+    private Specification<Product> nameLike(String name) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Product_.NAME), "%" + name + "%");
+    }
+
+    public Page<Product> fetchProducts(Pageable pageable, String name) {
+        return this.productRepository.findAll(this.nameLike(name) ,pageable);
     }
 
     public void deleteProduct(long id) {
@@ -153,8 +159,6 @@ public class ProductService {
     public void handlePlaceOrder(User user, HttpSession session, String receiverName,
             String receiverAddress, String receiverPhone) {
 
-        
-
         // step 1: get cart by user
 
         Cart cart = this.cartRepository.findByUser(user);
@@ -171,10 +175,10 @@ public class ProductService {
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverPhone(receiverPhone);
                 order.setStatus("PENDING");
-                
+
                 double sum = 0;
 
-                for(CartDetail cd : cartDetails){
+                for (CartDetail cd : cartDetails) {
                     sum += cd.getPrice();
                 }
 
@@ -183,7 +187,6 @@ public class ProductService {
                 order = this.orderRepository.save(order);
 
                 // create orderDetail
-
 
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();

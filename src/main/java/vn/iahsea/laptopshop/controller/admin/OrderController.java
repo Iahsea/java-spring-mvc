@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import vn.iahsea.laptopshop.domain.Order;
-import vn.iahsea.laptopshop.domain.Product;
 import vn.iahsea.laptopshop.service.OrderService;
 
 @Controller
