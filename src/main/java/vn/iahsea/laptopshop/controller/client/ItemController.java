@@ -2,7 +2,11 @@ package vn.iahsea.laptopshop.controller.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import vn.iahsea.laptopshop.domain.Cart;
 import vn.iahsea.laptopshop.domain.CartDetail;
 import vn.iahsea.laptopshop.domain.Product;
+import vn.iahsea.laptopshop.domain.Product_;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -141,5 +146,30 @@ public class ItemController {
         return "redirect:/product/" + id;
     }
     
+     @GetMapping("/products")
+    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                // convert from String to int
+                page = Integer.parseInt(pageOptional.get());
+            } else {
+                // page = 1
+            }
+        } catch (Exception e) {
+            // page = 1
+            // TODO : handle exception
+        }
+
+        // check sort price
+        Pageable pageable = PageRequest.of(page - 1, 6);
+        Page<Product> prs = this.productService.fetchProducts(pageable);
+        List<Product> products = prs.getContent();
+        model.addAttribute("products", products);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
+        return "client/product/show";
+    }
 
 }
