@@ -162,11 +162,12 @@ public class ItemController {
             // TODO : handle exception
         }
 
-        String name = nameOptional.get();
+        
 
         // check sort price
         Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.fetchProducts(pageable, name);
+        String name = nameOptional.isPresent() ? nameOptional.get() : ""; 
+        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, name);
         List<Product> products = prs.getContent();
         model.addAttribute("products", products);
 

@@ -21,6 +21,7 @@ import vn.iahsea.laptopshop.repository.CartRepository;
 import vn.iahsea.laptopshop.repository.OrderDetailRepository;
 import vn.iahsea.laptopshop.repository.OrderRepository;
 import vn.iahsea.laptopshop.repository.ProductRepository;
+import vn.iahsea.laptopshop.service.spcecifition.ProductSpecs;
 
 @Service
 public class ProductService {
@@ -50,12 +51,12 @@ public class ProductService {
         return this.productRepository.save(pr);
     }
 
-    private Specification<Product> nameLike(String name) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Product_.NAME), "%" + name + "%");
+    public Page<Product> fetchProducts(Pageable pageable) {
+        return this.productRepository.findAll(pageable);
     }
 
-    public Page<Product> fetchProducts(Pageable pageable, String name) {
-        return this.productRepository.findAll(this.nameLike(name) ,pageable);
+    public Page<Product> fetchProductsWithSpec(Pageable page, String name) {
+        return this.productRepository.findAll(ProductSpecs.nameLike(name) ,page);
     }
 
     public void deleteProduct(long id) {

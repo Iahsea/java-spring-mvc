@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vn.iahsea.laptopshop.domain.Order;
-import vn.iahsea.laptopshop.domain.OrderDetail;
 import vn.iahsea.laptopshop.domain.Product;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.domain.dto.RegisterDTO;
@@ -25,7 +24,6 @@ import vn.iahsea.laptopshop.service.ProductService;
 import vn.iahsea.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {
