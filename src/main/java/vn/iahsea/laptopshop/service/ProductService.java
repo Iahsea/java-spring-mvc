@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import vn.iahsea.laptopshop.domain.CartDetail;
 import vn.iahsea.laptopshop.domain.Order;
 import vn.iahsea.laptopshop.domain.OrderDetail;
 import vn.iahsea.laptopshop.domain.Product;
-import vn.iahsea.laptopshop.domain.Product_;
 import vn.iahsea.laptopshop.domain.User;
 import vn.iahsea.laptopshop.repository.CartDetailRepository;
 import vn.iahsea.laptopshop.repository.CartRepository;
@@ -55,9 +53,47 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public Page<Product> fetchProductsWithSpec(Pageable page, String name) {
-        return this.productRepository.findAll(ProductSpecs.nameLike(name) ,page);
+    // public Page<Product> fetchProductsWithSpec(Pageable page, String name) {
+    //     return this.productRepository.findAll(ProductSpecs.nameLike(name) ,page);
+    // }
+
+    // case 1:
+
+    // public Page<Product> fetchProductsWithSpec(Pageable page, double min) {
+    //     return this.productRepository.findAll(ProductSpecs.minPrice(min) ,page);
+    // }
+
+    // case 2:
+    // public Page<Product> fetchProductsWithSpec(Pageable page, double max){
+    //     return this.productRepository.findAll(ProductSpecs.maxPrice(max), page);
+    // }
+
+    // case 3:
+    // public Page<Product> fetchProductsWithSpec(Pageable page, String factory){
+    //     return this.productRepository.findAll(ProductSpecs.matchFactory(factory), page);
+    // }
+
+    // // case 4:
+    // public Page<Product> fetchProductsWithSpec(Pageable page, List<String> factory){
+    //     return this.productRepository.findAll(ProductSpecs.matchListFactory(factory), page);
+    // }
+
+    // case 5 :
+
+    public Page<Product> fetchProductsWithSpec(Pageable page, String price){
+        if(price.equals("10-toi-15-trieu")){
+            double min = 10000000;
+            double max = 15000000;
+            return this.productRepository.findAll(ProductSpecs.matchPrice(min, max), page);
+        } else if (price.equals("15-toi-30-trieu")){
+            double min = 15000000;
+            double max = 30000000;
+            return this.productRepository.findAll(ProductSpecs.matchPrice(min, max), page);
+        } else {
+            return this.productRepository.findAll(page);
+        }
     }
+    
 
     public void deleteProduct(long id) {
         this.productRepository.deleteById(id);
