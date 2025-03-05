@@ -204,9 +204,7 @@
                                     <div class="col-12 col-md-8 text-center">
                                         <div class="row g-4">
                                             <c:if test="${totalPages ==  0}">
-                                                <div class="alert alert-danger text-center" role="alert">
-                                                    <strong>Không tìm thấy sản phẩm!</strong>
-                                                </div>
+                                                <div>Không tìm thấy sản phẩm</div>
                                             </c:if>
                                             <c:forEach var="product" items="${products}">
                                                 <div class="col-md-6 col-lg-4">

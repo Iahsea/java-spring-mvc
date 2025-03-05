@@ -19,12 +19,13 @@
                         </div>
                         <div class="d-flex m-3 me-0">
                             <c:if test="${not empty pageContext.request.userPrincipal}">
-
                                 <a href="/cart" class="position-relative me-4 my-auto">
                                     <i class="fa fa-shopping-bag fa-2x"></i>
                                     <span
                                         class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${sessionScope.sum}</span>
+                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;" id="sumCart">
+                                        ${sessionScope.sum}
+                                    </span>
                                 </a>
                                 <div class="dropdown my-auto">
                                     <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
@@ -33,8 +34,7 @@
                                         <i class="fas fa-user fa-2x"></i>
                                     </a>
 
-                                    <ul class="dropdown-menu dropdown-menu-end p-4" aria- labelledby="dropdownMenuLink">
-
+                                    <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
                                         <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
                                             <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
                                                 src="/images/avatar/${sessionScope.avatar}" />
@@ -42,7 +42,9 @@
                                                 <c:out value="${sessionScope.fullName}" />
                                             </div>
                                         </li>
+
                                         <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+
                                         <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
@@ -57,9 +59,8 @@
                                     </ul>
                                 </div>
                             </c:if>
-
                             <c:if test="${empty pageContext.request.userPrincipal}">
-                                <a href="/login" class="position-relative me-4 my-auto">
+                                <a href="/login" class="a-login position-relative me-4 my-auto">
                                     Đăng nhập
                                 </a>
                             </c:if>
